@@ -15,9 +15,13 @@ namespace P520233_AllanDelgado.Globales
         public static Formularios.FrmUsuariosGestion 
             MiFormularioDeGestionDeUsuarios = new Formularios.FrmUsuariosGestion();
 
-        //este sera el usuario validado en el login tendra un scope global  en toda la aplicacion 
+        //este será el usuario validado en el login, tendrá un scope global 
+        //en toda la aplicación
+        public static Logica.Models.Usuario MiUsuarioGlobal = new Logica.Models.Usuario();  
 
-        public static Logica.Models.Usuario MiUsuarioGlobal = new Logica.Models.Usuario();
+        //formulario de movimientos de productos 
+        public static Formularios.FrmMovimientosInventario 
+            MiFormularioMovimientos = new Formularios.FrmMovimientosInventario();
 
     }
 }

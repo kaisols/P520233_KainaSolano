@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{4FB5ABBF-6CF9-4573-AD18-A056AD413933}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>P520233_KainaSolano</RootNamespace>
-    <AssemblyName>P520233_KainaSolano</AssemblyName>
+    <RootNamespace>P520233_AllanDelgado</RootNamespace>
+    <AssemblyName>P520233_AllanDelgado</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -59,6 +59,18 @@
     <Compile Include="Formularios\FrmLogin.Designer.cs">
       <DependentUpon>FrmLogin.cs</DependentUpon>
     </Compile>
+    <Compile Include="Formularios\FrmMovimientosInventario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\FrmMovimientosInventario.Designer.cs">
+      <DependentUpon>FrmMovimientosInventario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\FrmMovimientosInventarioDetalleProducto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\FrmMovimientosInventarioDetalleProducto.Designer.cs">
+      <DependentUpon>FrmMovimientosInventarioDetalleProducto.cs</DependentUpon>
+    </Compile>
     <Compile Include="Formularios\FrmPrincipal.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -80,6 +92,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Formularios\FrmLogin.resx">
       <DependentUpon>FrmLogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\FrmMovimientosInventario.resx">
+      <DependentUpon>FrmMovimientosInventario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\FrmMovimientosInventarioDetalleProducto.resx">
+      <DependentUpon>FrmMovimientosInventarioDetalleProducto.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Formularios\FrmPrincipal.resx">
       <DependentUpon>FrmPrincipal.cs</DependentUpon>

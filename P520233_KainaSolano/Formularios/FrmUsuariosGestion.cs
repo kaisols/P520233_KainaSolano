@@ -1,5 +1,4 @@
-﻿using P520233_KainaSolano.Tools;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -71,19 +70,17 @@ namespace P520233_AllanDelgado.Formularios
 
             DataTable lista = new DataTable();
 
-
             if (VerActivos)
             {
-                //si se queiren ver los usuarios activos
+                //si se quieren ver los usuarios activos
                 lista = miusuario.ListarActivos(FiltroBusqueda);
                 DgvListaUsuarios.DataSource = lista;
             }
-            else 
+            else
             {
-                //usuarios inactivos               
+                //Usuarios inactivos
                 lista = miusuario.ListarInactivos(FiltroBusqueda);
                 DgvListaUsuarios.DataSource = lista;
-
             }
 
         }
@@ -357,76 +354,79 @@ namespace P520233_AllanDelgado.Formularios
                 //se procede a eliminar
                 if (MiUsuarioLocal.UsuarioID > 0)
                 {
-                    string msg = string.Format("Esta Seguro que quiere eliminar al usuario {0}?", MiUsuarioLocal.Nombre);
+                    string msg = string.Format("¿Está seguro de eliminar al usuario {0}?", MiUsuarioLocal.Nombre);
 
-                    DialogResult respuesta = MessageBox.Show(msg, "Confirmacion requerida", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    DialogResult respuesta = MessageBox.Show(msg, "Confirmación requerida", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                     if (respuesta == DialogResult.Yes && MiUsuarioLocal.Eliminar())
                     {
-
-                        MessageBox.Show("El usuario ha sido eliminado", "!!!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("El Usuario ha sido eliminado", "!!!", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         LimpiarForm();
                         CargarListaUsuarios(CbVerActivos.Checked);
                         ActivarBotonAgregar();
-
                     }
                 }
             }
             else
             {
-                //se re activa
+                //se procede a activar 
                 if (MiUsuarioLocal.UsuarioID > 0)
                 {
-                    string msg = string.Format("Esta Seguro que quiere activar al usuario {0}?", MiUsuarioLocal.Nombre);
+                    string msg = string.Format("¿Está seguro de activar al usuario {0}?", MiUsuarioLocal.Nombre);
 
-                    DialogResult respuesta = MessageBox.Show(msg, "Confirmacion requerida", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    DialogResult respuesta = MessageBox.Show(msg, "Confirmación requerida", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                     if (respuesta == DialogResult.Yes && MiUsuarioLocal.Activar())
                     {
-
-                        MessageBox.Show("El usuario ha sido activado", "!!!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("El Usuario ha sido activado", "!!!", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         LimpiarForm();
                         CargarListaUsuarios(CbVerActivos.Checked);
                         ActivarBotonAgregar();
-
                     }
                 }
+
+
             }
+
+
+
+
+
+
+
 
         }
 
         private void TxtUsuarioCedula_KeyPress(object sender, KeyPressEventArgs e)
         {
-
-            e.Handled = Validaciones.CaracteresNumeros(e);
-
+            e.Handled = Tools.Validaciones.CaracteresNumeros(e);
         }
 
         private void TxtUsuarioNombre_KeyPress(object sender, KeyPressEventArgs e)
         {
-            e.Handled = Validaciones.CaracteresTexto(e);
+            e.Handled = Tools.Validaciones.CaracteresTexto(e);
         }
 
         private void TxtUsuarioCorreo_KeyPress(object sender, KeyPressEventArgs e)
         {
-            e.Handled = Validaciones.CaracteresTexto(e, false, true);
+            e.Handled = Tools.Validaciones.CaracteresTexto(e, false, true);
         }
 
         private void TxtUsuarioTelefono_KeyPress(object sender, KeyPressEventArgs e)
         {
-            e.Handled = Validaciones.CaracteresNumeros(e);
+            e.Handled = Tools.Validaciones.CaracteresNumeros(e);
         }
 
         private void TxtUsuarioContrasennia_KeyPress(object sender, KeyPressEventArgs e)
         {
-            e.Handled = Validaciones.CaracteresTexto(e);
+            e.Handled = Tools.Validaciones.CaracteresTexto(e);
         }
 
         private void TxtUsuarioDireccion_KeyPress(object sender, KeyPressEventArgs e)
         {
-            e.Handled = Validaciones.CaracteresTexto(e);
+            e.Handled = Tools.Validaciones.CaracteresTexto(e);
         }
 
         private void BtnCerrar_Click(object sender, EventArgs e)
@@ -436,10 +436,7 @@ namespace P520233_AllanDelgado.Formularios
 
         private void CbVerActivos_CheckedChanged(object sender, EventArgs e)
         {
-
             CargarListaUsuarios(CbVerActivos.Checked);
-
-            
 
             if (CbVerActivos.Checked)
             {
@@ -454,17 +451,16 @@ namespace P520233_AllanDelgado.Formularios
 
         private void TxtBuscar_TextChanged(object sender, EventArgs e)
         {
+
             if (!string.IsNullOrEmpty(TxtBuscar.Text.Trim()) && TxtBuscar.Text.Count() >= 3)
             {
-
                 CargarListaUsuarios(CbVerActivos.Checked, TxtBuscar.Text.Trim());
-
             }
-            else 
+            else
             {
                 CargarListaUsuarios(CbVerActivos.Checked);
-            
             }
+
         }
     }
 }

@@ -65,5 +65,23 @@ namespace Logica.Models
         //o sea que se puede repetir n veces 
         List<MovimientoDetalle> Detalles { get; set; }
 
+
+        public DataTable AsignarEsquemaDelDetalle()
+        {
+            DataTable R = new DataTable();
+
+            Conexion MyCnn = new Conexion();
+
+            //queremos cargar el esquema del datatable, NO los datos
+            R = MyCnn.EjecutarSelect("SPMovimientoCargarDetalle", true);
+
+            //para evitar el identity (1,1) que está originalmente en la tabla
+            //me genere numeros unicos que impidan repetir registros
+            R.PrimaryKey = null;
+
+            return R;
+        }
+
+
     }
 }

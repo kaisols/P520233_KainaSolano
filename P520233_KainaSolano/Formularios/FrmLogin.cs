@@ -37,18 +37,29 @@ namespace P520233_AllanDelgado.Formularios
             if (!string.IsNullOrEmpty(TxtUsuario.Text.Trim()) &&
                 !string.IsNullOrEmpty(TxtContrasennia.Text.Trim()))
             {
-                //si hay valores en los cuadros de texto se procede a validarlos
+                //si hay valores en los cuadros de texto se procede a validarlos 
                 string usuario = TxtUsuario.Text.Trim();
                 string contrasennia = TxtContrasennia.Text.Trim();
 
-                //int idUsuario = Globales.ObjetosGlobales.MiUsuarioGlobal.Validar;
+                int idUsuario = Globales.ObjetosGlobales.MiUsuarioGlobal.ValidarIngreso(usuario, contrasennia);
 
+                if (idUsuario > 0)
+                {
+                    //la validación es correcta. Ahora creamos el usuario global y además permitimos el ingreso 
+                    //al sistema 
+
+                    Globales.ObjetosGlobales.MiUsuarioGlobal = Globales.ObjetosGlobales.MiUsuarioGlobal.ConsultarPorID(idUsuario);
+
+                    Globales.ObjetosGlobales.MiFormularioPrincipal.Show();
+                    this.Hide();
+                }
+                else
+                { 
+                    MessageBox.Show("Acceso denegado!", "Error de validación...", MessageBoxButtons.OK, MessageBoxIcon.Error );
+                    TxtUsuario.Focus();
+                    TxtUsuario.SelectAll();
+                }
             }
-
-
-            Globales.ObjetosGlobales.MiFormularioPrincipal.Show();
-            this.Hide();
-
         }
 
         private void FrmLogin_KeyDown(object sender, KeyEventArgs e)

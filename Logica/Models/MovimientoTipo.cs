@@ -15,9 +15,13 @@ namespace Logica.Models
         public DataTable Listar()
         {
             DataTable R = new DataTable();
+           
+            Conexion MiCnn = new Conexion();
 
+            R = MiCnn.EjecutarSelect("SPMovimientosListar");
 
             return R;
+           
         }
 
     }

@@ -5,13 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace P520233_KainaSolano.Tools
+namespace P520233_AllanDelgado.Tools
 {
     public static class Validaciones
     {
         private static char g_Gen_DecimalSeparator = Convert.ToChar(System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator.ToString());
 
-        //ciertos caracteres de texto, permite ciertos  de puntuacion
         public static bool CaracteresTexto(System.Windows.Forms.KeyPressEventArgs c, bool Mayusculas = false, bool Minisculas = false)
         {
             bool ret = false;
@@ -30,7 +29,7 @@ namespace P520233_KainaSolano.Tools
             ret;
 
         }
-        //recibe numeros enteros
+
         public static bool CaracteresNumeros(System.Windows.Forms.KeyPressEventArgs c, bool SoloEnteros = true)
         {
             //En el caso que presione enter acepta el valor y devuelve True
@@ -56,7 +55,6 @@ namespace P520233_KainaSolano.Tools
 
         }
 
-        //formato fecha
         public static string DateFormat(DateTime pDate, bool ISO_Format = false)
         {
             string s = string.Empty;
@@ -107,7 +105,6 @@ namespace P520233_KainaSolano.Tools
         }
 
 
-        //formatoHora PARA QUE SE VEA LARGO
         public static string FormatoHora(DateTime pDate)
         {
             string h;
