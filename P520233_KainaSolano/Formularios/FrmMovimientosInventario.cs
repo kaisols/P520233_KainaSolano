@@ -13,9 +13,9 @@ namespace P520233_AllanDelgado.Formularios
     public partial class FrmMovimientosInventario : Form
     {
 
-        public Logica.Models.Movimiento MiMovimientoLocal {  get; set; }
+        public Logica.Models.Movimiento MiMovimientoLocal { get; set; }
 
-        public DataTable DtListaDetalleProductos {  get; set; }
+        public DataTable DtListaDetalleProductos { get; set; }
 
 
         public FrmMovimientosInventario()
@@ -34,36 +34,58 @@ namespace P520233_AllanDelgado.Formularios
             //debemos validar que esten los datos minimos necesarios
             if (ValidarMovimiento())
             {
-                // una vez que tenemos dos requisitos completos se procede a "dar forma" 
-                //al objeto de movimiento local
 
-                //primero los atributos simples y compuestos del encabezado
-                //luego la signacion de los detalles
-                MiMovimientoLocal.Fecha = DtpFecha.Value.Date;
-                MiMovimientoLocal.Anotaciones = TxtAnotaciones.Text.Trim();
+                DialogResult respuesta = MessageBox.Show("Desea comtinuar?", "???", MessageBoxButtons.YesNo);
 
-                //compuestos
-                MiMovimientoLocal.MiTipo.MovimientoTipoID = Convert.ToInt32(CboxTipo.SelectedValue);
-                //a novel de funcionalidad solo necesitamos el FK o sea el id del tipo,
-                //la parte del texto no es necesario.
-
-                MiMovimientoLocal.MiUsuario = Globales.ObjetosGlobales.MiUsuarioGlobal;
-
-                //llenar la lista de detalles en el objeto local a partir de las filas
-                //del dattablee de detalles.
-                TrasladarDetalles();
-
-                // ahora que tenemnos todo listo procedemos a agregar el movimiento 
-                if (MiMovimientoLocal.Agregar())
+                if (respuesta == DialogResult.Yes)
                 {
-                    MessageBox.Show("El movimiento se ha agregado correctamente",
-                        ":)", MessageBoxButtons.OK);
 
-                    //todo: generarun rpt visual en CrystalReports
-                    //se hara en clase reposicionsabado 2 dic 2023
+                    // una vez que tenemos dos requisitos completos se procede a "dar forma" 
+                    //al objeto de movimiento local
+
+                    //primero los atributos simples y compuestos del encabezado
+                    //luego la signacion de los detalles
+                    MiMovimientoLocal.Fecha = DtpFecha.Value.Date;
+                    MiMovimientoLocal.Anotaciones = TxtAnotaciones.Text.Trim();
+
+                    //compuestos
+                    MiMovimientoLocal.MiTipo.MovimientoTipoID = Convert.ToInt32(CboxTipo.SelectedValue);
+                    //a novel de funcionalidad solo necesitamos el FK o sea el id del tipo,
+                    //la parte del texto no es necesario.
+
+                    MiMovimientoLocal.MiUsuario = Globales.ObjetosGlobales.MiUsuarioGlobal;
+
+                    //llenar la lista de detalles en el objeto local a partir de las filas
+                    //del dattablee de detalles.
+                    TrasladarDetalles();
+
+                    // ahora que tenemnos todo listo procedemos a agregar el movimiento 
+                    if (MiMovimientoLocal.Agregar())
+                    {
+                        MessageBox.Show("El movimiento se ha agregado correctamente",
+                            ":)", MessageBoxButtons.OK);
+
+                        //GENERAR RPT
+                        //1. CREAR UN OBJETO DE TIPO MOVIMIENTO
+                        CrystalDecisions.CrystalReports.Engine.ReportDocument MiReporte = new CrystalDecisions.CrystalReports.Engine.ReportDocument();
+
+                        //2. crear objeto del reporte que se debe usar
+                        MiReporte = new Reportes.RptMovimiento();
+
+                        //3. llamar a la funcion extrae los datos de la bd 
+                        MiReporte = MiMovimientoLocal.Imprimir(MiReporte);
+
+                        //4. dibujar el reporte en pantalla 
+                        FrmVisualizadorReportes MiVisualizador = new FrmVisualizadorReportes();
+
+                        MiVisualizador.CrvVisualizador.ReportSource = MiReporte;
+
+                        MiVisualizador.Show();
+
+                        //TODO: Limpiar el formulario 
+                    }
+
                 }
-               
-
 
             }
 
@@ -97,8 +119,8 @@ namespace P520233_AllanDelgado.Formularios
         {
             bool R = false;
 
-            if (DtpFecha.Value.Date <= DateTime.Now.Date && 
-                CboxTipo.SelectedIndex > -1 && 
+            if (DtpFecha.Value.Date <= DateTime.Now.Date &&
+                CboxTipo.SelectedIndex > -1 &&
                 DtListaDetalleProductos.Rows.Count > 0)
             {
                 R = true;
@@ -119,7 +141,7 @@ namespace P520233_AllanDelgado.Formularios
                         "Error de Validacion", MessageBoxButtons.OK);
                     return false;
                 }
-                if (DtListaDetalleProductos == null || DtListaDetalleProductos.Rows.Count == 0) 
+                if (DtListaDetalleProductos == null || DtListaDetalleProductos.Rows.Count == 0)
                 {
 
                     MessageBox.Show("No se puede procesar un movimiento sin detalles",
@@ -201,7 +223,7 @@ namespace P520233_AllanDelgado.Formularios
             //temporalmente el funcionamiento del form actual, hacer algo en 
             //el otro form y esperar una respuesta. 
 
-            Form FormDetalleProducto = new Formularios.FrmMovimientosInventarioDetalleProducto();   
+            Form FormDetalleProducto = new Formularios.FrmMovimientosInventarioDetalleProducto();
 
             DialogResult resp = FormDetalleProducto.ShowDialog();
 
