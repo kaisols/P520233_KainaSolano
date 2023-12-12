@@ -76,5 +76,16 @@ namespace P520233_AllanDelgado.Formularios
                 Globales.ObjetosGlobales.MiFormularioMovimientos.Show();
             }
         }
+
+        private void MnuGestionProductos_Click(object sender, EventArgs e)
+        {
+            if (!Globales.ObjetosGlobales.MiFormularioDeGestionDeProductos.Visible)
+            {
+                //hago una reinstancia del objeto para asegurar que iniciamos en limpio
+                Globales.ObjetosGlobales.MiFormularioDeGestionDeProductos = new FrmProductosGestion();
+
+                Globales.ObjetosGlobales.MiFormularioDeGestionDeProductos.Show();
+            }
+        }
     }
 }

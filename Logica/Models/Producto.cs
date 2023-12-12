@@ -21,7 +21,7 @@ namespace Logica.Models
         public decimal CantidadStock { get; set; }
         public bool Activo { get; set; }
 
-        ProductoCategoria MiCategoria { get; set; }
+        public ProductoCategoria MiCategoria { get; set; }
 
         public Producto()
         {
@@ -31,6 +31,23 @@ namespace Logica.Models
         public bool Agregar()
         {
             bool R = false;
+
+            Conexion MiCnn = new Conexion();
+
+            //ahora agregamos todos los parámetros que solicita el SP de agregar
+            MiCnn.ListaDeParametros.Add(new SqlParameter("@CodigoBarras", this.CodigoBarras));
+            MiCnn.ListaDeParametros.Add(new SqlParameter("@NombreProducto", this.NombreProducto));
+            MiCnn.ListaDeParametros.Add(new SqlParameter("@Costo", this.Costo)); 
+            MiCnn.ListaDeParametros.Add(new SqlParameter("@Utilidad", this.Utilidad));
+            MiCnn.ListaDeParametros.Add(new SqlParameter("@SubTotal", this.SubTotal));
+            MiCnn.ListaDeParametros.Add(new SqlParameter("@TasaImpuesto", this.TasaImpuesto));
+            MiCnn.ListaDeParametros.Add(new SqlParameter("@PrecioUnitario", this.PrecioUnitario));
+            MiCnn.ListaDeParametros.Add(new SqlParameter("@CantidadStock ", this.CantidadStock));
+            MiCnn.ListaDeParametros.Add(new SqlParameter("@ProductoCategoriaID", this.MiCategoria.ProductoCategoriaID));
+
+            int resultado = MiCnn.EjecutarDML("SPProductoAgregar");
+
+            if (resultado > 0) R = true;
 
             return R;
         }
@@ -60,8 +77,19 @@ namespace Logica.Models
         {
             bool R = false;
 
+            Conexion MiCnn = new Conexion();
+
+            MiCnn.ListaDeParametros.Add(new SqlParameter("@CodigoBarras", CodigoBarras));
+
+            DataTable dt = new DataTable();
+
+            dt = MiCnn.EjecutarSelect("SPProductoConsultarPorCodigoBarras");
+
+            if (dt != null && dt.Rows.Count > 0) R = true;
+
             return R;
         }
+
 
         public DataTable Listar(bool VerActivos = true)
         {
@@ -81,6 +109,40 @@ namespace Logica.Models
             MyCnn.ListaDeParametros.Add(new SqlParameter("@Filtro", Filtro));
 
             R = MyCnn.EjecutarSelect("SPProductosListar");
+
+            return R;
+        }
+
+
+        public DataTable ListarActivos(string pFiltro = "")
+        {
+            DataTable R = new DataTable();
+
+            //hay que hacer instancia de la clase conexion 
+
+            Conexion MiCnn = new Conexion();
+            //como el SP para listar requiere un parámetro, hay que agregarlo a la lista
+            MiCnn.ListaDeParametros.Add(new SqlParameter("@VerActivos", true));
+            MiCnn.ListaDeParametros.Add(new SqlParameter("@Filtro", pFiltro));
+
+            R = MiCnn.EjecutarSelect("SPProductoListar");
+
+            return R;
+        }
+
+        public DataTable ListarInactivos(string pFiltro = "")
+        {
+            DataTable R = new DataTable();
+
+            //hay que hacer instancia de la clase conexion 
+
+            Conexion MiCnn = new Conexion();
+            //como el SP para listar requiere un parámetro, hay que agregarlo a la lista
+            MiCnn.ListaDeParametros.Add(new SqlParameter("@VerActivos", false));
+            MiCnn.ListaDeParametros.Add(new SqlParameter("@Filtro", pFiltro));
+
+            R = MiCnn.EjecutarSelect("SPProductoListar");
+
 
             return R;
         }
